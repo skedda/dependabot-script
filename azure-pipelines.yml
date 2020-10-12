@@ -21,13 +21,16 @@ steps:
 - script: |
     export DEPENDABOT_NATIVE_HELPERS_PATH="$(pwd)/native-helpers"
     mkdir -p $DEPENDABOT_NATIVE_HELPERS_PATH/{terraform,python,dep,go_modules,hex,composer,npm_and_yarn}
-    export PATH="$PATH:$DEPENDABOT_NATIVE_HELPERS_PATH/terraform/bin:$DEPENDABOT_NATIVE_HELPERS_PATH/python/bin:$DEPENDABOT_NATIVE_HELPERS_PATH/go_modules/bin:$DEPENDABOT_NATIVE_HELPERS_PATH/dep/bin"
-    export MIX_HOME="$DEPENDABOT_NATIVE_HELPERS_PATH/hex/mix"
     cp -r $(bundle show dependabot-npm_and_yarn)/helpers $DEPENDABOT_NATIVE_HELPERS_PATH/npm_and_yarn/helpers
     $DEPENDABOT_NATIVE_HELPERS_PATH/npm_and_yarn/helpers/build $DEPENDABOT_NATIVE_HELPERS_PATH/npm_and_yarn
   displayName: 'install npm & yarn native helpers'
 
 - script: |
+    # just export it one more time to split these 2 scripts
+    export DEPENDABOT_NATIVE_HELPERS_PATH="$(pwd)/native-helpers"
+    export PATH="$PATH:$DEPENDABOT_NATIVE_HELPERS_PATH/terraform/bin:$DEPENDABOT_NATIVE_HELPERS_PATH/python/bin:$DEPENDABOT_NATIVE_HELPERS_PATH/go_modules/bin:$DEPENDABOT_NATIVE_HELPERS_PATH/dep/bin"
+    export MIX_HOME="$DEPENDABOT_NATIVE_HELPERS_PATH/hex/mix"
+
     ruby ./generic-update-script.rb
   displayName: run update script
   env:
