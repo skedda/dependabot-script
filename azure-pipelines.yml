@@ -29,3 +29,6 @@ steps:
 
 - script: |
     ruby ./generic-update-script.rb
+  displayName: run update script
+  env:
+    AZURE_ACCESS_TOKEN: $(AZURE_ACCESS_TOKEN_SECRET)
