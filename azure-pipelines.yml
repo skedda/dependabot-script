@@ -35,3 +35,4 @@ steps:
   displayName: run update script
   env:
     AZURE_ACCESS_TOKEN: $(AZURE_ACCESS_TOKEN_SECRET)
+    GITHUB_ACCESS_TOKEN: $(GITHUB_ACCESS_TOKEN_SECRET)
