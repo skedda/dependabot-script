@@ -23,6 +23,7 @@ repo_name = ENV["PROJECT_PATH"] # namespace/project
 
 # Directory where the base dependency files are.
 directory = ENV["DIRECTORY_PATH"] || "/"
+branch = ENV["TARGET_BRANCH"] || nil
 
 # Name of the package manager you'd like to do the update for. Options are:
 # - bundler
@@ -56,7 +57,7 @@ if ENV["GITHUB_ENTERPRISE_ACCESS_TOKEN"]
     api_endpoint: "https://#{ENV['GITHUB_ENTERPRISE_HOSTNAME']}/api/v3/",
     repo: repo_name,
     directory: directory,
-    branch: nil,
+    branch: branch,
   )
 elsif ENV["GITLAB_ACCESS_TOKEN"]
   gitlab_hostname = ENV["GITLAB_HOSTNAME"] || "gitlab.com"
@@ -74,7 +75,7 @@ elsif ENV["GITLAB_ACCESS_TOKEN"]
     api_endpoint: "https://#{gitlab_hostname}/api/v4",
     repo: repo_name,
     directory: directory,
-    branch: nil,
+    branch: branch,
   )
 elsif ENV["AZURE_ACCESS_TOKEN"]
   azure_hostname = ENV["AZURE_HOSTNAME"] || "dev.azure.com"
@@ -92,14 +93,14 @@ elsif ENV["AZURE_ACCESS_TOKEN"]
     api_endpoint: "https://#{azure_hostname}/",
     repo: repo_name,
     directory: directory,
-    branch: nil,
+    branch: branch,
   )
 else
   source = Dependabot::Source.new(
     provider: "github",
     repo: repo_name,
     directory: directory,
-    branch: nil,
+    branch: branch,
   )
 end
 
