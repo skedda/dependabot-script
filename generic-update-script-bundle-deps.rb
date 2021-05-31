@@ -131,7 +131,14 @@ dependencies = parser.parse
 all_updated_deps = []
 all_updated_files = []
 
+ignored_deps = (ENV["DEPENDENCIES_TO_IGNORE"] || "").split(';')
+
 dependencies.select(&:top_level?).each do |dep|
+  if ignored_deps.include?(dep.name)
+    puts "Dependency #{dep.name} is ignored"
+    next
+  end
+
   #########################################
   # Get update details for the dependency #
   #########################################
@@ -160,7 +167,7 @@ dependencies.select(&:top_level?).each do |dep|
   )
   all_updated_deps.concat(updated_deps)
 
-  print "  - Found #{dep.name} (from #{dep.version})…"
+  puts "  - Found #{dep.name} (from #{dep.version})…"
 
   # now we don't do a PR right away; we instead bundle them
 end
@@ -190,8 +197,8 @@ pr_creator = Dependabot::PullRequestCreator.new(
   assignees: [(ENV["PULL_REQUESTS_ASSIGNEE"] || ENV["GITLAB_ASSIGNEE_ID"])&.to_i],
   label_language: true,
 )
-pull_request = pr_creator.create
-puts " submitted"
+# pull_request = pr_creator.create
+puts "submitted"
 
 # Enable GitLab "merge when pipeline succeeds" feature.
 # Merge requests created and successfully tested will be merge automatically.
